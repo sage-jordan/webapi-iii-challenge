@@ -4,6 +4,8 @@ const router = express.Router();
 
 const db = require('./userDb');
 
+const postDb = require('../posts/postDb');
+
 router.post('/', (req, res) => {
     const user = req.body;
     db.insert(user)
@@ -15,9 +17,16 @@ router.post('/', (req, res) => {
         })
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', (req, res) => { // post with body containing "text" and "user_id"
     const id = req.params.id;
-    // db.
+    const newPost = req.body;
+    postDb.insert(newPost)
+        .then(post => {
+            res.status(200).json({ success: true, post })
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, err })
+        })
 });
 
 router.get('/', (req, res) => {
