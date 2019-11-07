@@ -5,11 +5,19 @@ const router = express.Router();
 const db = require('./userDb');
 
 router.post('/', (req, res) => {
-    
+    const user = req.body;
+    db.insert(user)
+        .then(newUser => {
+            res.status(200).json({ success: true, newUser });
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, err });
+        })
 });
 
 router.post('/:id/posts', (req, res) => {
-
+    const id = req.params.id;
+    // db.
 });
 
 router.get('/', (req, res) => {
