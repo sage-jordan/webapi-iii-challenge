@@ -1,11 +1,10 @@
 const express = require('express');
-
 const server = express();
-const postRouter = require('./posts/postRouter');
+const postRouter = require('./posts/postRouter').default;
 const userRouter = require('./users/userRouter');
 const nodemon = require('nodemon');
 // const path = require('path');
-
+server.use(express.json());
 server.use('/post',  postRouter);
 server.use('/users', userRouter);
 
