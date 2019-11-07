@@ -49,11 +49,11 @@ function validatePostId(req, res, next) {
                 req.post = post;
                 next();
             } else {
-                res.status(404).json({ message: "invalid user id" });
+                res.status(404).json({ message: "invalid post id" });
             }
         })
         .catch(err => {
-            res.status(500).json({ error: "The user information could not be retrieved.", err });
+            res.status(500).json({ error: "The post information could not be retrieved.", err });
         });
 };
 
