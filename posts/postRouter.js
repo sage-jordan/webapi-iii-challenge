@@ -41,10 +41,17 @@ router.delete('/:id', validatePostId, (req, res) => {
 });
 
 router.put('/:id', validatePostId, (req, res) => {
+    const id = req.params.id;
     const newPost = req.body;
-    db.insert(newPost)
+    db.update(id, newPost)
         .then(post => {
-            res.status(200).json({ success: true, post });
+            db.getById(id)
+                .then(updated => {
+                    res.status(200).json({ success: true, updated });
+                })
+                .catch(err => {
+                    res.status(500).json({ success: true, message: `Post successfully updated, but there was a problem in GET by ID`, err})
+                })
         })
         .catch(err => {
             res.status(500).json({ success: false, err});
