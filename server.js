@@ -1,10 +1,10 @@
 const express = require('express');
 const server = express();
-const postRouter = require('./posts/postRouter').default;
+server.use(express.json());
+const postRouter = require('./posts/postRouter');
 const userRouter = require('./users/userRouter');
 const nodemon = require('nodemon');
 // const path = require('path');
-server.use(express.json());
 server.use('/post',  postRouter);
 server.use('/users', userRouter);
 
@@ -15,7 +15,7 @@ server.get('/', (req, res) => {
 //custom middleware
 
 function logger(req, res, next) {
-  console.log(`[${new Date().toString()}] ${req.method} to ${req.url}`);
+  console.log(`[${new Date().toString()}] ${req.method} to ${req.url}. Data: ${req.post}`);
   next();
 };
 

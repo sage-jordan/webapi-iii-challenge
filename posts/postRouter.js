@@ -19,7 +19,6 @@ router.get('/:id', validatePostId, (req, res) => {
     db.getById(id)
         .then(post => {
             if(post){
-                console.log(post)
                 res.status(200).json({ success: true, post });
             } else {
                 res.status(404).json({ success: false, message: `There is no post with id ${id}`});
