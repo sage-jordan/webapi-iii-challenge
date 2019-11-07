@@ -37,8 +37,15 @@ router.get('/:id', validateUserId, (req, res) => {
         })
 });
 
-router.get('/:id/posts', (req, res) => {
-
+router.get('/:id/posts', validateUserId, (req, res) => {
+    const id = req.params.id;
+    db.getUserPosts(id)
+        .then(user => {
+            res.status(200).json({ success: true, user })
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, err })
+        })
 });
 
 router.delete('/:id', (req, res) => {
