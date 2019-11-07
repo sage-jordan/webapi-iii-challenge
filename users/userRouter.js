@@ -6,7 +6,7 @@ const db = require('./userDb');
 
 const postDb = require('../posts/postDb');
 
-router.post('/', (req, res) => {
+router.post('/', validateUser, (req, res) => {
     const user = req.body;
     db.insert(user)
         .then(newUser => {
@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
         })
 });
 
-router.post('/:id/posts', (req, res) => { // post with body containing "text" and "user_id"
+router.post('/:id/posts', validatePost, validateUserId, (req, res) => { // post with body containing "text" and "user_id"
     const id = req.params.id;
     const newPost = req.body;
     postDb.insert(newPost)
@@ -76,7 +76,7 @@ router.delete('/:id', (req, res) => {
         })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validateUser, validateUserId, (req, res) => {
     const id = req.params.id;
     const user = req.body;
     db.update(id, user)
@@ -113,11 +113,19 @@ function validateUserId(req, res, next) {
 };
 
 function validateUser(req, res, next) {
-
+    if(req.body.name){
+        next();
+    } else {
+        res.status(404).json({ message: `Please provide a name`});
+    }
 };
 
 function validatePost(req, res, next) {
-
+    if(req.body.text && req.body.user_id){
+        next();
+    } else {
+        res.status(404).json({ message: `Please provide text and user_id`});   
+    }
 };
 
 module.exports = router;
