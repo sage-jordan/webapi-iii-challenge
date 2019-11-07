@@ -30,7 +30,14 @@ router.get('/:id', validatePostId, (req, res) => {
 });
 
 router.delete('/:id', validatePostId, (req, res) => {
-
+    const id = req.params.id;
+    db.remove(id)
+        .then(() => {
+            res.status(204).json({ success: true, message: `Post with id ${id} has successfully been deleted.`})
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, err })
+        })
 });
 
 router.put('/:id', validatePostId, (req, res) => {
