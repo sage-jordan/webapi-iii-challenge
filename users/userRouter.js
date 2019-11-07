@@ -68,7 +68,19 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-
+    const id = req.params.id;
+    const user = req.body;
+    db.update(id, user)
+        .then(changed => {
+            const newUser = {
+                id: id,
+                ...user
+            }
+            res.status(200).json({ success: true, newUser })
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, err })
+        })
 });
 
 //custom middleware
