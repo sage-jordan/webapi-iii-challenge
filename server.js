@@ -1,11 +1,13 @@
+// Server Setup
 const express = require('express');
 require('dotenv').config();
 const server = express();
 const port = process.env.PORT;
 server.use(express.json());
+
+// Routers 
 const postRouter = require('./posts/postRouter');
 const userRouter = require('./users/userRouter');
-const nodemon = require('nodemon');
 
 // const path = require('path');
 server.use('/post',  postRouter);
@@ -15,7 +17,7 @@ server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`)
 });
 
-//custom middleware
+// Custom Middleware
 
 function logger(req, res, next) {
   console.log(`[${new Date().toString()}] ${req.method} to ${req.url}.`);
