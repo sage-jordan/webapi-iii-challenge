@@ -1,9 +1,12 @@
 const express = require('express');
+// require('dotenv').config();
 const server = express();
+const port = process.env.PORT;
 server.use(express.json());
 const postRouter = require('./posts/postRouter');
 const userRouter = require('./users/userRouter');
 const nodemon = require('nodemon');
+
 // const path = require('path');
 server.use('/post',  postRouter);
 server.use('/users', userRouter);
@@ -25,8 +28,8 @@ server.use('/', (req, res) => {
   res.status(200).send('Express Running');
 })
 
-server.listen(5000, () => {
-  console.log(`=== Server listening on port 5000 ===`);
+server.listen(port, () => {
+  console.log(`=== Server listening on port ${port} ===`);
 }) 
 
 module.exports = server;
